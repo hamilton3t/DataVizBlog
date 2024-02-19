@@ -1,0 +1,14 @@
+{
+  "hash": "31028d117cc156bcd40fc31acfd203af",
+  "result": {
+    "markdown": "---\ntitle: \"US Ski Resort Analysis\"\nauthor: \"Tristan Hamilton\"\ndate: \"2024-02-19\"\ncategories: [Blog Post 2]\n#image: \n---\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nus_ski <- us_ski |> separate(resort_name,\n                             sep = \",\",\n                             into = c(\"resort\", \"state_abbr\"))\n```\n\n::: {.cell-output .cell-output-stderr}\n```\nWarning: Expected 2 pieces. Missing pieces filled with `NA` in 1 rows [233].\n```\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

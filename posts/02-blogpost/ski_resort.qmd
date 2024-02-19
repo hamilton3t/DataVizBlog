@@ -1,0 +1,22 @@
+---
+title: "US Ski Resort Analysis"
+author: "Tristan Hamilton"
+date: "2024-02-19"
+categories: [Blog Post 2]
+#image: 
+---
+
+
+```{r include=FALSE} 
+library(tidyverse)
+library(here)
+us_ski <- read_csv(here("data/ski_resorts.csv"))
+```
+
+
+```{r}
+us_ski <- us_ski |> separate(resort_name,
+                             sep = ",",
+                             into = c("resort", "state_abbr"))
+```
+
