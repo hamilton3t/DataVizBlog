@@ -1,6 +1,9 @@
 [
   {
     "listing": "/index.html",
-    "items": []
+    "items": [
+      "/posts/02-blogpost/ski_resort.html",
+      "/posts/01-blogpost/global_alcohol.html"
+    ]
   }
 ]

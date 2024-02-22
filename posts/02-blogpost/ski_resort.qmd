@@ -45,6 +45,18 @@ ggplot(data = resort_map, mapping = aes(x = long, y = lat, group = group)) +
   theme_void() 
 ```
 
+```{r}
+numres_df <- us_ski |>
+  group_by(state) |>
+  summarise(num_resorts = n()) |>
+  arrange(desc(num_resorts)) |>
+  slice(1:6)
+
+kable(numres_df,
+      caption = "Top 6 States: Number of SKi Resorts",
+      col.names = c("State", "Number of Resorts"))
+```
+
 ### Part 2: Difficulty
 
 ```{r message=FALSE}
@@ -69,79 +81,27 @@ ggplot(data = difficulty_df, aes(x = resort, y = percent, fill = difficulty)) +
        y = "Percent Black Diamond",
        x = "Ski Resort Name")
 ```
-
-### Part 3: Can the vertical drop of a ski resort be estimated based on its summit elevation, number of runs, and total acres?
-
-```{r}
-vert_mod <- lm(vertical ~ summit + runs + acres, data = us_ski)
-vert_mod |> tidy()
-## Yhat = 246 + 0.104(summit) + 9.28(runs) + 0.167(acres)
-```
-
-Check assumptions:
-```{r}
-augment_ski <- augment(vert_mod)
-
-## linearity
-## check a scatterplot of vertical vs. each predictor
-ggplot(data = augment_ski, aes(x = summit, y = vertical)) +
-  geom_jitter(width = 0.2, alpha = 0.2)
-
-ggplot(data = augment_ski, aes(x = runs, y = vertical)) +
-  geom_jitter(width = 0.2, alpha = 0.2)
-
-ggplot(data = augment_ski, aes(x = acres, y = vertical)) +
-  geom_jitter(width = 0.2, alpha = 0.2)
-
-## normality
-## histogram of the residuals
-ggplot(data = augment_ski, aes(x = .resid)) +
-  geom_histogram(color = "blue4",
-                 fill = "lightblue",
-                 bins = 20)
-
-## constant variance
-## check a residual plot of residuals vs. fitted values
-ggplot(data = augment_ski, aes(x = .fitted, y = .resid)) +
-  geom_jitter(width = 0.2, alpha = 0.2)
-
-## independence
-## Think about how the data was collected
-```
-
-Here is the equation of our linear regression model: Yhat = 246 + 0.104(summit) + 9.28(runs) + 0.167(acres). In this case, the response variable is vertical. I am looking to estimate the vertical drop of a ski resort based on its summit elevation, number of runs, and total acres. The intercept is 246, meaning the predicted vertical drop of a ski resort is expected to be 246 feet when all of the predictors are equal to zero. Let's interpret the coefficients B1, B2, and B3. The first coefficient, 0.104, means for each additional foot of elevation, the model predicts an increase of 0.104 feet in vertical drop (holding all other variables constant). B2 is 9.28, which means for each additional run at the ski resort, the model predicts an increase of 9.28 feet in vertical drop (holding all other variables constant). B3 is 0.167, which means for each additional acre of terrain at the ski resort, the model predicts an increase of 0.167 feet in vertical drop (holding all other variables constant). 
+Takeaway:
 
 ```{r}
-summary(vert_mod) 
-```
-
-The residual standard error is 484, meaing that the actual vertical drop deviates from the predicted values by approximately 484 feet. The multiple r-squared value measures the proportion of variance in the response variable, vertical drop, that is explained by the predictor variables (summit elevation, number of runs, total acres). In this case, 0.7432 means that 74.32% of the variance in vertical drop is explained by the predictors in the model. The adjusted r-squared value (0.7408) is very close to the other r-squared value and provides a more conservative estimate given the inclusion of additional predictor variables. The F-statistic is 316.4 on 3 and 328 degrees of freedom, meaning there is a strongly significant relationship between the predictor variables and the response variable, vertical drop. Additionally, the p-value associated with the F-stat is very small and suggests that at least one of the predictors is useful in predicting the response variable, and that the model as a whole is significant
-
-
-Next: Let's choose one predictor, summit elevation. We can look at the actual observed data points from our data set and we can fit a linear model to see what it predicts for vertical drop given summit elevation. 
-```{r}
-sum_mod <- lm(vertical ~ summit, data = us_ski)
-sum_mod
-## For each additional foot of summit elevation, the model predicts an increase of 0.19 
-## feet in vertical drop 
-
-grid <- us_ski |>
-  data_grid(
-    summit = seq_range(summit, n = 10))
-
-aug_ski1 <- augment(sum_mod, newdata = grid, interval = "confidence")
-
 ggplot(data = us_ski, aes(x = summit, y = vertical)) +
-  geom_point(size = 1.2) +
-  geom_line(data = aug_ski1, aes(y = .fitted), 
-            colour = "yellow4", linewidth = 1.0) +
-  geom_ribbon(data = aug_ski1, aes(y = .fitted,
-                                  ymin = .lower,
-                                  ymax = .upper), alpha = 0.4) +
+  geom_point(size = 0.9) +
+  geom_smooth(color = "blue4") +
   theme_minimal() +
-  labs(title = "Relationship between Summit Elevation and Vertical Drop of Ski Resorts",
+  labs(title = "Relationship between Vertical Drop and Summit Elevation",
        x = "Summit Elevation (ft)",
        y = "Vertical Drop (ft)")
 ```
 
-This shows the relationship between the summit elevation of ski resorts and their vertical drop. The data points represent each ski resort from the data set and their observed summit elevation and vertical drop. The line shows the predictions from our linear model. It represents fitted values of the response variable, vertical, based on the summit elevation predictor. The shaded area around the line shows the confidence interval for the predicted values of vertical drop and allows us to see the uncertainty associated with the predictions. To sum up, as summit elevation increases, the model predicts that vertical drop tends to increase as well. This is
+```{r}
+vert_df <- us_ski |>
+  group_by(resort) |>
+  summarise(total_vert = sum(vertical)) |>
+  arrange(desc(total_vert)) |>
+  slice(1:15)
+
+kable(vert_df,
+      caption = "Top 15 Ski Resorts: Vertical Drop",
+      col.names = c("Ski Resort", "Vertical Drop (ft)"))
+```
+
