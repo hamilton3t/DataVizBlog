@@ -180,192 +180,383 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="httpsgist.github.comewisemanb251e5eaf70ca52a4b9b10dce9e635a4" class="level2">
-<h2 class="anchored" data-anchor-id="httpsgist.github.comewisemanb251e5eaf70ca52a4b9b10dce9e635a4"><a href="https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4" class="uri">https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4</a></h2>
-<section id="part-1-ski-resorts-per-state" class="level3">
-<h3 class="anchored" data-anchor-id="part-1-ski-resorts-per-state">Part 1: Ski Resorts per State</h3>
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction:</h3>
+<p>I chose a data set from 2017 with data on US ski resorts. There are 364 observations and 16 variables ranging from vertical drop, elevation (base and summit), lifts, runs, acres, and more. I will be looking into difficulty level, that is, which ski resorts have the highest percentage of black-diamond trails. I will also investigate vertical drop, and the states with the most ski resorts. The data set can be found at <a href="https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4" class="uri">https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4</a> and we can also glance at it below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>us_ski <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span> <span class="fu">separate</span>(resort_name,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">sep =</span> <span class="st">","</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"resort"</span>, <span class="st">"state_abbr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Expected 2 pieces. Missing pieces filled with `NA` in 1 rows [233].</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(us_ski))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 3%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">resort_name</th>
+<th style="text-align: left;">state</th>
+<th style="text-align: right;">summit</th>
+<th style="text-align: right;">base</th>
+<th style="text-align: right;">vertical</th>
+<th style="text-align: right;">lifts</th>
+<th style="text-align: right;">runs</th>
+<th style="text-align: right;">acres</th>
+<th style="text-align: right;">green_percent</th>
+<th style="text-align: right;">green_acres</th>
+<th style="text-align: right;">blue_percent</th>
+<th style="text-align: right;">blue_acres</th>
+<th style="text-align: right;">black_percent</th>
+<th style="text-align: right;">black_acres</th>
+<th style="text-align: right;">lat</th>
+<th style="text-align: right;">lon</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">49(degrees) North, WA</td>
+<td style="text-align: left;">Washington</td>
+<td style="text-align: right;">5774</td>
+<td style="text-align: right;">3923</td>
+<td style="text-align: right;">1851</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">2325</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">697.50</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">930.00</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">697.50</td>
+<td style="text-align: right;">49.00</td>
+<td style="text-align: right;">-115.84</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Afton Alps, MN</td>
+<td style="text-align: left;">Minnesota</td>
+<td style="text-align: right;">700</td>
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">60.00</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">180.00</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">60.00</td>
+<td style="text-align: right;">44.85</td>
+<td style="text-align: right;">-92.79</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Alpine Meadows, CA</td>
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">8673</td>
+<td style="text-align: right;">6385</td>
+<td style="text-align: right;">2288</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">2400</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">600.00</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">960.00</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">840.00</td>
+<td style="text-align: right;">39.17</td>
+<td style="text-align: right;">-120.22</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alpine Mountain, PA</td>
+<td style="text-align: left;">Pennsylvania</td>
+<td style="text-align: right;">1150</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">20.40</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">66.00</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">33.60</td>
+<td style="text-align: right;">40.08</td>
+<td style="text-align: right;">-76.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Alpine Valley, MI</td>
+<td style="text-align: left;">Michigan</td>
+<td style="text-align: right;">1210</td>
+<td style="text-align: right;">910</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">118</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">46.02</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">30.68</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">41.30</td>
+<td style="text-align: right;">44.96</td>
+<td style="text-align: right;">-84.87</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Alpine Valley, OH</td>
+<td style="text-align: left;">Ohio</td>
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">1260</td>
+<td style="text-align: right;">230</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">23.76</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">24.48</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">23.76</td>
+<td style="text-align: right;">40.31</td>
+<td style="text-align: right;">-83.68</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>num_state <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span> <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">num_resort =</span> <span class="fu">n</span>()) </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>state_df <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">map_data</span>(<span class="st">"state"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>state_df<span class="sc">$</span>region <span class="ot">&lt;-</span> <span class="fu">toTitleCase</span>(state_df<span class="sc">$</span>region)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>resort_map <span class="ot">&lt;-</span> <span class="fu">left_join</span>(state_df, num_state, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="part-1-number-of-ski-resorts-per-state" class="level3">
+<h3 class="anchored" data-anchor-id="part-1-number-of-ski-resorts-per-state">Part 1: Number of Ski Resorts per State</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> resort_map, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat, <span class="at">group =</span> group)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">fill =</span> num_resort), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>(<span class="at">projection =</span> <span class="st">"albers"</span>, <span class="at">lat0 =</span> <span class="dv">39</span>, <span class="at">lat1 =</span> <span class="dv">45</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Number of Resorts"</span>) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Ski Resorts per State"</span>) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>us_ski <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span> <span class="fu">separate</span>(resort_name,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">sep =</span> <span class="st">","</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"resort"</span>, <span class="st">"state_abbr"</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>num_state <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span> <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">num_resort =</span> <span class="fu">n</span>()) </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>state_df <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">map_data</span>(<span class="st">"state"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>state_df<span class="sc">$</span>region <span class="ot">&lt;-</span> <span class="fu">toTitleCase</span>(state_df<span class="sc">$</span>region)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>resort_map <span class="ot">&lt;-</span> <span class="fu">left_join</span>(state_df, num_state, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"state"</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> resort_map, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> long, <span class="at">y =</span> lat, <span class="at">group =</span> group)) <span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="fu">aes</span>(<span class="at">fill =</span> num_resort), <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>(<span class="at">projection =</span> <span class="st">"albers"</span>, <span class="at">lat0 =</span> <span class="dv">39</span>, <span class="at">lat1 =</span> <span class="dv">45</span>) <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Number of Resorts"</span>) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Ski Resorts per State"</span>) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ski_resort_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>The above map shows the number of ski resorts per state. Some states are gray, indicating there are no ski resorts. The sequential color scale allows us to see the states with higher numbers of ski resorts. New York, Michigan, Colorado, and Pennsylvania stand out as the states with the most ski resorts. Despite having access to skiing in many states, the number of resorts varies, and the size of the resorts varies as well. Even though Pennsylvania has a lot of ski resorts, on average they’re significantly smaller than ski resorts in a state like Colorado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>numres_df <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">num_resorts =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(num_resorts)) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(numres_df,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Top 6 States: Number of SKi Resorts"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"State"</span>, <span class="st">"Number of Resorts"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Top 6 States: Number of SKi Resorts</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">State</th>
+<th style="text-align: right;">Number of Resorts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">New York</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Michigan</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Colorado</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pennsylvania</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Wisconsin</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">California</td>
+<td style="text-align: right;">18</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The above table summarizes the top 6 states with the most ski resorts. The top 3 states are New York (34), Michigan (32), and Colorado (24).</p>
 </section>
-<section id="part-2-difficulty" class="level3">
-<h3 class="anchored" data-anchor-id="part-2-difficulty">Part 2: Difficulty</h3>
+<section id="part-2-which-ski-resorts-are-the-most-difficult" class="level3">
+<h3 class="anchored" data-anchor-id="part-2-which-ski-resorts-are-the-most-difficult">Part 2: Which Ski Resorts are the Most Difficult?</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>difficulty_df <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(black_percent)) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>difficulty_df <span class="ot">&lt;-</span> difficulty_df <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(green_percent, blue_percent, black_percent),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"difficulty"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"percent"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(percent), <span class="dv">0</span>, percent))</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> difficulty_df, <span class="fu">aes</span>(<span class="at">x =</span> resort, <span class="at">y =</span> percent, <span class="at">fill =</span> difficulty)) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"green_percent"</span> <span class="ot">=</span> <span class="st">"green4"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"blue_percent"</span> <span class="ot">=</span> <span class="st">"blue2"</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"black_percent"</span> <span class="ot">=</span> <span class="st">"black"</span>), <span class="at">name =</span> <span class="st">"Difficulty Level"</span>) <span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 10 Most Difficult Ski Resorts"</span>,</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent Black Diamond"</span>,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Ski Resort Name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>difficulty_df <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(black_percent)) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>difficulty_df <span class="ot">&lt;-</span> difficulty_df <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(green_percent, blue_percent, black_percent),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"difficulty"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"percent"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(percent), <span class="dv">0</span>, percent))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> difficulty_df, <span class="fu">aes</span>(<span class="at">x =</span> resort, <span class="at">y =</span> percent, <span class="at">fill =</span> difficulty)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"green_percent"</span> <span class="ot">=</span> <span class="st">"green4"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"blue_percent"</span> <span class="ot">=</span> <span class="st">"blue2"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"black_percent"</span> <span class="ot">=</span> <span class="st">"black"</span>), <span class="at">name =</span> <span class="st">"Difficulty Level"</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Top 10 Most Difficult Ski Resorts"</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent Black Diamond"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Ski Resort Name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="ski_resort_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section>
-<section id="part-3-can-the-vertical-drop-of-a-ski-resort-be-estimated-based-on-its-summit-elevation-number-of-runs-and-total-acres" class="level3">
-<h3 class="anchored" data-anchor-id="part-3-can-the-vertical-drop-of-a-ski-resort-be-estimated-based-on-its-summit-elevation-number-of-runs-and-total-acres">Part 3: Can the vertical drop of a ski resort be estimated based on its summit elevation, number of runs, and total acres?</h3>
+<p>The above graph shows the most difficult ski resorts in the US based on the variable percent black. Since every ski trail has a rating: green (easy), blue (intermediate), and black (expert), we can look at the ski resorts with highest percentage of black diamond trails. In this case, Silverton (Colorado) is 100% black diamond, followed by Mount Bohemia (Michigan) at 93%, and Mt. Ashland (Oregon) at 75%. The rest of the top 10 has about 50% black diamond trails. We do have to consider that there is not a “baseline” scale in rating a trail’s difficulty, so there is likely some level of inaccuracy here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vert_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(vertical <span class="sc">~</span> summit <span class="sc">+</span> runs <span class="sc">+</span> acres, <span class="at">data =</span> us_ski)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>vert_mod <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 5
-  term        estimate std.error statistic  p.value
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 (Intercept)  246.     48.1          5.12 5.29e- 7
-2 summit         0.104   0.00931     11.2  8.72e-25
-3 runs           9.28    1.05         8.81 7.15e-17
-4 acres          0.167   0.0478       3.50 5.25e- 4</code></pre>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> us_ski, <span class="fu">aes</span>(<span class="at">x =</span> summit, <span class="at">y =</span> vertical)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">color =</span> <span class="st">"blue4"</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Relationship between Vertical Drop and Summit Elevation"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Summit Elevation (ft)"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Vertical Drop (ft)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 30 rows containing non-finite values (`stat_smooth()`).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Yhat = 246 + 0.104(summit) + 9.28(runs) + 0.167(acres)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Check assumptions:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>augment_ski <span class="ot">&lt;-</span> <span class="fu">augment</span>(vert_mod)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## linearity</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## check a scatterplot of vertical vs. each predictor</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> augment_ski, <span class="fu">aes</span>(<span class="at">x =</span> summit, <span class="at">y =</span> vertical)) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> augment_ski, <span class="fu">aes</span>(<span class="at">x =</span> runs, <span class="at">y =</span> vertical)) <span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> augment_ski, <span class="fu">aes</span>(<span class="at">x =</span> acres, <span class="at">y =</span> vertical)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## normality</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## histogram of the residuals</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> augment_ski, <span class="fu">aes</span>(<span class="at">x =</span> .resid)) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"blue4"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"lightblue"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## constant variance</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## check a residual plot of residuals vs. fitted values</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> augment_ski, <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## independence</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Think about how the data was collected</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Here is the equation of our linear regression model: Yhat = 246 + 0.104(summit) + 9.28(runs) + 0.167(acres). In this case, the response variable is vertical. I am looking to estimate the vertical drop of a ski resort based on its summit elevation, number of runs, and total acres. The intercept is 246, meaning the predicted vertical drop of a ski resort is expected to be 246 feet when all of the predictors are equal to zero. Let’s interpret the coefficients B1, B2, and B3. The first coefficient, 0.104, means for each additional foot of elevation, the model predicts an increase of 0.104 feet in vertical drop (holding all other variables constant). B2 is 9.28, which means for each additional run at the ski resort, the model predicts an increase of 9.28 feet in vertical drop (holding all other variables constant). B3 is 0.167, which means for each additional acre of terrain at the ski resort, the model predicts an increase of 0.167 feet in vertical drop (holding all other variables constant).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vert_mod) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = vertical ~ summit + runs + acres, data = us_ski)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--2500.54  -275.20   -86.91   258.18  1937.81 
-
-Coefficients:
-             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 246.33544   48.13897   5.117 5.29e-07 ***
-summit        0.10404    0.00931  11.175  &lt; 2e-16 ***
-runs          9.27660    1.05237   8.815  &lt; 2e-16 ***
-acres         0.16748    0.04782   3.502 0.000525 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 484 on 328 degrees of freedom
-  (32 observations deleted due to missingness)
-Multiple R-squared:  0.7432,    Adjusted R-squared:  0.7408 
-F-statistic: 316.4 on 3 and 328 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<p>The residual standard error is 484, meaing that the actual vertical drop deviates from the predicted values by approximately 484 feet. The multiple r-squared value measures the proportion of variance in the response variable, vertical drop, that is explained by the predictor variables (summit elevation, number of runs, total acres). In this case, 0.7432 means that 74.32% of the variance in vertical drop is explained by the predictors in the model. The adjusted r-squared value (0.7408) is very close to the other r-squared value and provides a more conservative estimate given the inclusion of additional predictor variables. The F-statistic is 316.4 on 3 and 328 degrees of freedom, meaning there is a strongly significant relationship between the predictor variables and the response variable, vertical drop. Additionally, the p-value associated with the F-stat is very small and suggests that at least one of the predictors is useful in predicting the response variable, and that the model as a whole is significant</p>
-<p>Next: Let’s choose one predictor, summit elevation. We can look at the actual observed data points from our data set and we can fit a linear model to see what it predicts for vertical drop given summit elevation.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sum_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(vertical <span class="sc">~</span> summit, <span class="at">data =</span> us_ski)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sum_mod</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = vertical ~ summit, data = us_ski)
-
-Coefficients:
-(Intercept)       summit  
-   368.6436       0.1892  </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## For each additional foot of summit elevation, the model predicts an increase of 0.19 feet in vertical drop </span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_grid</span>(</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">summit =</span> <span class="fu">seq_range</span>(summit, <span class="at">n =</span> <span class="dv">10</span>))</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>aug_ski1 <span class="ot">&lt;-</span> <span class="fu">augment</span>(sum_mod, <span class="at">newdata =</span> grid, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> us_ski, <span class="fu">aes</span>(<span class="at">x =</span> summit, <span class="at">y =</span> vertical)) <span class="sc">+</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> aug_ski1, <span class="fu">aes</span>(<span class="at">y =</span> .fitted), </span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour =</span> <span class="st">"yellow4"</span>, <span class="at">linewidth =</span> <span class="fl">1.0</span>) <span class="sc">+</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> aug_ski1, <span class="fu">aes</span>(<span class="at">y =</span> .fitted,</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">ymin =</span> .lower,</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">ymax =</span> .upper), <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Relationship between Summit Elevation and Vertical Drop of Ski Resorts"</span>,</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Summit Elevation (ft)"</span>,</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Vertical Drop (ft)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 30 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="ski_resort_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="ski_resort_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>This shows the relationship between the summit elevation of ski resorts and their vertical drop. The data points represent each ski resort from the data set and their observed summit elevation and vertical drop. The line shows the predictions from our linear model. It represents fitted values of the response variable, vertical, based on the summit elevation predictor. The shaded area around the line shows the confidence interval for the predicted values of vertical drop and allows us to see the uncertainty associated with the predictions. To sum up, as summit elevation increases, the model predicts that vertical drop tends to increase as well. This is</p>
-
-
+<p>The above graph show the relationship between vertical drop and summit elevation of a ski resort. There is not constant variance; however, the smoothed line shows the overall trend. We can see that the ski resorts with higher summit elevation are more likely to have more vertical drop.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vert_df <span class="ot">&lt;-</span> us_ski <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(resort) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_vert =</span> <span class="fu">sum</span>(vertical)) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_vert)) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(vert_df,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">"Top 15 Ski Resorts: Vertical Drop"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Ski Resort"</span>, <span class="st">"Vertical Drop (ft)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Top 15 Ski Resorts: Vertical Drop</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Ski Resort</th>
+<th style="text-align: right;">Vertical Drop (ft)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Telluride</td>
+<td style="text-align: right;">4570</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Snowmass</td>
+<td style="text-align: right;">4406</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Big Sky</td>
+<td style="text-align: right;">4350</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jackson Hole</td>
+<td style="text-align: right;">4139</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Timberline</td>
+<td style="text-align: right;">3690</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Steamboat</td>
+<td style="text-align: right;">3668</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Aspen Highlands</td>
+<td style="text-align: right;">3635</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heavenly</td>
+<td style="text-align: right;">3527</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Crystal Mountain</td>
+<td style="text-align: right;">3475</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vail</td>
+<td style="text-align: right;">3450</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Whiteface Mountain</td>
+<td style="text-align: right;">3430</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Snowbird</td>
+<td style="text-align: right;">3400</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sun Valley</td>
+<td style="text-align: right;">3400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Breckenridge</td>
+<td style="text-align: right;">3398</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mt. Bachelor</td>
+<td style="text-align: right;">3365</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The above table shows the top 15 ski resorts with the most vertical drop. Telluride (Colorado) has the most vertical at 4570 feet, followed by Snowmass (Colorado) at 4406 feet, and Big Sky (Montana) at 4350 feet. In the top 15, only one mountain is on the East Coast, Whiteface Mountain, with 3430 feet of vertical drop.</p>
 </section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion:</h3>
+<p>Although this data set is pretty extensive, it doesn’t include every ski resort in the country Other limitations include rating trail difficulty. There isn’t a “baseline” scale used to rate difficulty, so a black trail at a mountain in Michigan may be a blue in Colorado. I’ve been using the word “ski resort” to be consistent with the data set, so in this analysis the term “ski resort” is interchangeable with “ski area”. However, resorts are typically more comprehensive, developed, and are operated by large corporations. Contrarily, a ski area is more likely to be independent or community-operated with less amenities and fairer prices. In further analysis, I’d be interesting in a variable that specifies the ownership of the mountain (corporation vs.&nbsp;independent), and other categorical variables like region (east coast vs west coast).</p>
+</section>
+<section id="connection-to-class" class="level3">
+<h3 class="anchored" data-anchor-id="connection-to-class">Connection to Class:</h3>
+<p>When looking at the number of ski resorts in each state, a map is an effective visualization. It makes it easy to see which states don’t have ski resorts, which have the most, and perhaps comparing states in certain regions. I included a table with this data as well just to see more exact numbers.</p>
+
+
 </section>
 
 </main> <!-- /main -->

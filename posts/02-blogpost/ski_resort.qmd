@@ -14,15 +14,19 @@ library(here)
 library(tools)
 library(broom)
 library(knitr)
-# install.packages("modelr")
 library(modelr)
 us_ski <- read_csv(here("data/ski_resorts.csv"))
 ```
 
-## <https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4>
+### Introduction:
+I chose a data set from 2017 with data on US ski resorts. There are 364 observations and 16 variables ranging from vertical drop, elevation (base and summit), lifts, runs, acres, and more. I will be looking into difficulty level, that is, which ski resorts have the highest percentage of black-diamond trails. I will also investigate vertical drop, and the states with the most ski resorts. The data set can be found at <https://gist.github.com/Ewiseman/b251e5eaf70ca52a4b9b10dce9e635a4> and we can also glance at it below:
+```{r}
+kable(head(us_ski))
+```
 
-### Part 1: Ski Resorts per State
-```{r message=FALSE}
+
+### Part 1: Number of Ski Resorts per State
+```{r warning=FALSE}
 us_ski <- us_ski |> separate(resort_name,
                              sep = ",",
                              into = c("resort", "state_abbr"))
@@ -34,9 +38,7 @@ state_df <- ggplot2::map_data("state")
 state_df$region <- toTitleCase(state_df$region)
 
 resort_map <- left_join(state_df, num_state, by = c("region" = "state"))
-```
 
-```{r}
 ggplot(data = resort_map, mapping = aes(x = long, y = lat, group = group)) +
   geom_polygon(aes(fill = num_resort), color = "black") +
   coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
@@ -44,6 +46,7 @@ ggplot(data = resort_map, mapping = aes(x = long, y = lat, group = group)) +
   labs(title = "Ski Resorts per State") +
   theme_void() 
 ```
+The above map shows the number of ski resorts per state. Some states are gray, indicating there are no ski resorts. The sequential color scale allows us to see the states with higher numbers of ski resorts. New York, Michigan, Colorado, and Pennsylvania stand out as the states with the most ski resorts. Despite having access to skiing in many states, the number of resorts varies, and the size of the resorts varies as well. Even though Pennsylvania has a lot of ski resorts, on average they're significantly smaller than ski resorts in a state like Colorado.
 
 ```{r}
 numres_df <- us_ski |>
@@ -56,8 +59,9 @@ kable(numres_df,
       caption = "Top 6 States: Number of SKi Resorts",
       col.names = c("State", "Number of Resorts"))
 ```
+The above table summarizes the top 6 states with the most ski resorts. The top 3 states are New York (34), Michigan (32), and Colorado (24). 
 
-### Part 2: Difficulty
+### Part 2: Which Ski Resorts are the Most Difficult?
 
 ```{r message=FALSE}
 difficulty_df <- us_ski |>
@@ -81,9 +85,9 @@ ggplot(data = difficulty_df, aes(x = resort, y = percent, fill = difficulty)) +
        y = "Percent Black Diamond",
        x = "Ski Resort Name")
 ```
-Takeaway:
+The above graph shows the most difficult ski resorts in the US based on the variable percent black. Since every ski trail has a rating: green (easy), blue (intermediate), and black (expert), we can look at the ski resorts with highest percentage of black diamond trails. In this case, Silverton (Colorado) is 100% black diamond, followed by Mount Bohemia (Michigan) at 93%, and Mt. Ashland (Oregon) at 75%. The rest of the top 10 has about 50% black diamond trails. We do have to consider that there is not a "baseline" scale in rating a trail's difficulty, so there is likely some level of inaccuracy here. 
 
-```{r}
+```{r message=FALSE}
 ggplot(data = us_ski, aes(x = summit, y = vertical)) +
   geom_point(size = 0.9) +
   geom_smooth(color = "blue4") +
@@ -92,6 +96,7 @@ ggplot(data = us_ski, aes(x = summit, y = vertical)) +
        x = "Summit Elevation (ft)",
        y = "Vertical Drop (ft)")
 ```
+The above graph show the relationship between vertical drop and summit elevation of a ski resort. There is not constant variance; however, the smoothed line shows the overall trend. We can see that the ski resorts with higher summit elevation are more likely to have more vertical drop. 
 
 ```{r}
 vert_df <- us_ski |>
@@ -104,4 +109,10 @@ kable(vert_df,
       caption = "Top 15 Ski Resorts: Vertical Drop",
       col.names = c("Ski Resort", "Vertical Drop (ft)"))
 ```
+The above table shows the top 15 ski resorts with the most vertical drop. Telluride (Colorado) has the most vertical at 4570 feet, followed by Snowmass (Colorado) at 4406 feet, and Big Sky (Montana) at 4350 feet. In the top 15, only one mountain is on the East Coast, Whiteface Mountain, with 3430 feet of vertical drop. 
 
+### Conclusion: 
+Although this data set is pretty extensive, it doesn't include every ski resort in the country Other limitations include rating trail difficulty. There isn't a "baseline" scale used to rate difficulty, so a black trail at a mountain in Michigan may be a blue in Colorado. I've been using the word "ski resort" to be consistent with the data set, so in this analysis the term "ski resort" is interchangeable with "ski area". However, resorts are typically more comprehensive, developed, and are operated by large corporations. Contrarily, a ski area is more likely to be independent or community-operated with less amenities and fairer prices. In further analysis, I'd be interesting in a variable that specifies the ownership of the mountain (corporation vs. independent), and other categorical variables like region (east coast vs west coast). 
+
+### Connection to Class: 
+When looking at the number of ski resorts in each state, a map is an effective visualization. It makes it easy to see which states don't have ski resorts, which have the most, and perhaps comparing states in certain regions. I included a table with this data as well just to see more exact numbers. 
