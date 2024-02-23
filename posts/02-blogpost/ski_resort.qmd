@@ -3,7 +3,6 @@ title: "US Ski Resort Analysis"
 author: "Tristan Hamilton"
 date: "2024-02-23"
 categories: [Blog Post 2]
-image: https://assets.bwbx.io/images/users/iqjWHBFdfxIU/if.YK1j4ha.o/v1/-1x-1.jpg 
 ---
 
 
