@@ -1,9 +1,9 @@
 ---
 title: "US Ski Resort Analysis"
 author: "Tristan Hamilton"
-date: "2024-02-19"
+date: "2024-02-23"
 categories: [Blog Post 2]
-image: posts/02-blogpost/image1.jpg
+image: https://assets.bwbx.io/images/users/iqjWHBFdfxIU/if.YK1j4ha.o/v1/-1x-1.jpg 
 ---
 
 
@@ -56,7 +56,7 @@ numres_df <- us_ski |>
   slice(1:6)
 
 kable(numres_df,
-      caption = "Top 6 States: Number of SKi Resorts",
+      caption = "Top 6 States: Number of Ski Resorts",
       col.names = c("State", "Number of Resorts"))
 ```
 The above table summarizes the top 6 states with the most ski resorts. The top 3 states are New York (34), Michigan (32), and Colorado (24). 
