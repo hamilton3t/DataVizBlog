@@ -3,7 +3,7 @@ title: "US Ski Resort Analysis"
 author: "Tristan Hamilton"
 date: "2024-02-19"
 categories: [Blog Post 2]
-#image: 
+image: image1.jpg
 ---
 
 
@@ -87,7 +87,7 @@ ggplot(data = difficulty_df, aes(x = resort, y = percent, fill = difficulty)) +
 ```
 The above graph shows the most difficult ski resorts in the US based on the variable percent black. Since every ski trail has a rating: green (easy), blue (intermediate), and black (expert), we can look at the ski resorts with highest percentage of black diamond trails. In this case, Silverton (Colorado) is 100% black diamond, followed by Mount Bohemia (Michigan) at 93%, and Mt. Ashland (Oregon) at 75%. The rest of the top 10 has about 50% black diamond trails. We do have to consider that there is not a "baseline" scale in rating a trail's difficulty, so there is likely some level of inaccuracy here. 
 
-```{r message=FALSE}
+```{r warning=FALSE}
 ggplot(data = us_ski, aes(x = summit, y = vertical)) +
   geom_point(size = 0.9) +
   geom_smooth(color = "blue4") +
@@ -112,7 +112,7 @@ kable(vert_df,
 The above table shows the top 15 ski resorts with the most vertical drop. Telluride (Colorado) has the most vertical at 4570 feet, followed by Snowmass (Colorado) at 4406 feet, and Big Sky (Montana) at 4350 feet. In the top 15, only one mountain is on the East Coast, Whiteface Mountain, with 3430 feet of vertical drop. 
 
 ### Conclusion: 
-Although this data set is pretty extensive, it doesn't include every ski resort in the country Other limitations include rating trail difficulty. There isn't a "baseline" scale used to rate difficulty, so a black trail at a mountain in Michigan may be a blue in Colorado. I've been using the word "ski resort" to be consistent with the data set, so in this analysis the term "ski resort" is interchangeable with "ski area". However, resorts are typically more comprehensive, developed, and are operated by large corporations. Contrarily, a ski area is more likely to be independent or community-operated with less amenities and fairer prices. In further analysis, I'd be interesting in a variable that specifies the ownership of the mountain (corporation vs. independent), and other categorical variables like region (east coast vs west coast). 
+Although this data set is pretty extensive, it doesn't include every ski resort in the country. Other limitations include rating trail difficulty. There isn't a "baseline" scale used to rate difficulty, so a black trail at a mountain in Michigan may be a blue in Colorado. I've been using the word "ski resort" to be consistent with the data set, so in this analysis the term "ski resort" is interchangeable with "ski area". However, resorts are typically more comprehensive, developed, and operated by large corporations. Contrarily, a ski area is more likely to be independent or community-operated with less amenities and fairer ticket prices. In further analysis, I'd be interesting in a variable that specifies the ownership of the mountain (corporation vs. independent), and other categorical variables like region (East coast vs. West coast). 
 
 ### Connection to Class: 
-When looking at the number of ski resorts in each state, a map is an effective visualization. It makes it easy to see which states don't have ski resorts, which have the most, and perhaps comparing states in certain regions. I included a table with this data as well just to see more exact numbers. 
+When looking at the number of ski resorts in each state, a map is an effective visualization. It makes it easy to see which states don't have ski resorts, which have the most, and perhaps comparing states in certain regions. I included a table with this data as well just to show the exact numbers for each state. 
