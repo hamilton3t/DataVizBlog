@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: profile.jpg
+image: profile2.jpg
 about:
   template: jolla
   links:
@@ -16,4 +16,4 @@ about:
 
 ---
 
-About this blog
+This is my blog for our Data Visualization course (ds334) at St. Lawrence University. I chose various data sets of interest to me. The data analysis is open-ended, but we also incorporated topics that we are learning in this course. 
