@@ -1,5 +1,5 @@
 ---
-title: "US Honey Production"
+title: "Honey Data Analysis"
 author: "Tristan Hamilton"
 date: "2024-03-07"
 categories: [Blog Post 3]
