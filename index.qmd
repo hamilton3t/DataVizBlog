@@ -1,5 +1,5 @@
 ---
-title: "Data Visualization  - Spring 2024"
+title: "Data Visualization - Spring 2024"
 listing: 
   contents: posts
   sort: "date desc"

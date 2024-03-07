@@ -4,16 +4,10 @@ image: profile2.jpg
 about:
   template: jolla
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com
     - icon: github
       text: Github
       href: https://github.com/hamilton3t
 
 ---
 
-This is my blog for our Data Visualization course (ds334) at St. Lawrence University. I chose various data sets of interest to me. The data analysis is open-ended, but we also incorporated topics that we are learning in this course. 
+This is my Data Visualization blog for ds334 at SLU. The blog posts have provided a fun opportunity to incorporate aspects from class, explore topics of interest, and conduct our own analysis.

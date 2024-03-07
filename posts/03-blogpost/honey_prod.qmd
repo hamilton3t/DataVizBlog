@@ -124,7 +124,7 @@ ggpairs(data = us_honey, columns = 2:5)
 Once again, we see high correlation between numcol and total production, given that more bee colonies likely yields higher production of honey. There is also relatively high correlation between stocks and totalprod, likely because higher levels of production may lead to a surplus that is stored in honey stocks. 
 
 ### Conclusion:
-Through these visualizations, my initial questions are answered. I also learned some interesting things about the honey industry, like certain metrics used (yieldpercol, stocks), the industry leaders, and trends over time. I didn't encounter any major limitations, but I'm curious to see more variables pertaining to the honey industry. In the future, I would be interested in fitting a regression model to see which variables are good predictors of something like total honey production. 
+Through these visualizations, my initial questions are answered. I also learned some interesting things about the honey industry, like certain metrics used (yieldpercol, stocks), the industry leaders, and trends over time. I didn't encounter any major limitations, but I could consider mutating the totalprod value so that it's more interpretable on a graph. In the future, I would be interested in fitting a regression model to see which variables are good predictors of something like total honey production. 
 
 ### Connection to Class:
 Lately in class we have looked at certain trends over a time frame, like stock prices. We also looked at the relationship between several variables with a correlation matrix. With that, I wanted to incorporate these aspects from class into this blog post. 
