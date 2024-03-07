@@ -10,4 +10,4 @@ about:
 
 ---
 
-This is my Data Visualization blog for ds334 at SLU. The blog posts have provided a fun opportunity to incorporate aspects from class, explore topics of interest, and conduct our own analysis.
+Hi, I'm Tristan. This is my Data Visualization blog for ds334 at SLU. The blog posts have provided a fun opportunity to incorporate aspects from class, explore topics of interest, and conduct our own analysis.
