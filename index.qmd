@@ -1,10 +1,10 @@
 ---
-title: "Data Visualization Blog Posts Spring 2024"
+title: "Data Visualization  - Spring 2024"
 listing: 
   contents: posts
   sort: "date desc"
   type: default
-  categories: true
+  categories: false
   sort-ui: false
   filter-ui: false
 page-layout: full
